@@ -92,7 +92,7 @@ export default function ReminderCard({ reminder, onEdit, onDelete, onToggleCompl
           <PassPreview reminder={reminder} design={settings.passDesign} />
           <a
             className="btn-primary mt-2 w-full"
-            href={`/api/pass/${reminder.id}?design=${settings.passDesign}`}
+            href={`/api/pass/${reminder.id}?design=${settings.passDesign}&data=${encodeURIComponent(JSON.stringify(reminder))}`}
           >
              Add to Apple Wallet
           </a>
