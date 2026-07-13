@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-zinc-900 dark:text-zinc-100 antialiased min-h-screen selection:bg-indigo-300 selection:text-indigo-900;
+  }
+
+  /* View Transitions for Dark Mode Circular Spread */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+  ::view-transition-new(root) {
+    z-index: 2147483646;
+  }
+  .dark::view-transition-old(root) {
+    z-index: 2147483646;
+  }
+  .dark::view-transition-new(root) {
+    z-index: 1;
+  }
+}
+
+@layer components {
+  /* Premium glassmorphic background layer */
+  .bg-glass-gradient {
+    @apply fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-100/50 via-white/50 to-purple-50/50 dark:from-indigo-950/50 dark:via-zinc-950/50 dark:to-purple-900/50;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:from-indigo-500 hover:to-purple-500;
+  }
+  .btn-ghost {
+    @apply btn text-zinc-600 hover:bg-zinc-200/50 dark:text-zinc-300 dark:hover:bg-zinc-800/50 hover:shadow-sm;
+  }
+  .btn-danger {
+    @apply btn text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:text-red-400;
+  }
+  
+  /* Glassmorphism Cards */
+  .glass-card {
+    @apply rounded-2xl border border-white/20 bg-white/40 shadow-sm shadow-indigo-900/5 backdrop-blur-md dark:border-white/10 dark:bg-zinc-900/50 dark:shadow-md dark:shadow-black/20;
+  }
+  .glass-card:hover {
+    @apply -translate-y-1 shadow-[0_12px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgb(0,0,0,0.2)];
+  }
+
+  .glass-nav {
+    @apply sticky top-4 z-50 rounded-2xl border border-white/40 bg-white/60 px-4 py-3 shadow-[0_4px_20px_rgb(0,0,0,0.04)] backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/60 transition-all duration-300;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-zinc-200 bg-white/50 px-4 py-2.5 text-sm outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 dark:border-zinc-800 dark:bg-zinc-950/50 dark:focus:border-indigo-400 dark:focus:bg-zinc-900;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400;
+  }
+}
