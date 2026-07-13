@@ -7,7 +7,9 @@ import type { Reminder, PassDesign } from "./types";
  * use; swap for Vercel KV / Redis / a database in serverless production
  * (the filesystem there is ephemeral).
  */
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.NODE_ENV === "production"
+  ? "/tmp/quiz-reminder-data"
+  : path.join(process.cwd(), "data");
 
 export interface UserData {
   reminders: Reminder[];
