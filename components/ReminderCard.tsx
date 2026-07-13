@@ -74,9 +74,12 @@ export default function ReminderCard({ reminder, onEdit, onDelete, onToggleCompl
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-1.5 pl-8">
         {!reminder.completed && (
-          <button className="btn-ghost !px-2.5 !py-1 text-xs" onClick={() => setShowPass((v) => !v)}>
-            {showPass ? "Hide pass" : " Add to Wallet"}
-          </button>
+          <a
+            className="btn-ghost !px-2.5 !py-1 text-xs"
+            href={`/api/calendar/${reminder.id}?data=${encodeURIComponent(JSON.stringify(reminder))}`}
+          >
+            🗓️ Add to Calendar
+          </a>
         )}
         {onEdit && (
           <button className="btn-ghost !px-2.5 !py-1 text-xs" onClick={() => onEdit(reminder)}>
@@ -87,17 +90,6 @@ export default function ReminderCard({ reminder, onEdit, onDelete, onToggleCompl
           Delete
         </button>
       </div>
-      {showPass && settings && (
-        <div className="mt-3 pl-8">
-          <PassPreview reminder={reminder} design={settings.passDesign} />
-          <a
-            className="btn-primary mt-2 w-full"
-            href={`/api/pass/${reminder.id}?design=${settings.passDesign}&data=${encodeURIComponent(JSON.stringify(reminder))}`}
-          >
-             Add to Apple Wallet
-          </a>
-        </div>
-      )}
     </div>
   );
 }
