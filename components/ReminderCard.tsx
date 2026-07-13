@@ -78,7 +78,7 @@ export default function ReminderCard({ reminder, onEdit, onDelete, onToggleCompl
             className="btn-ghost !px-2.5 !py-1 text-xs"
             href={`/api/calendar/${reminder.id}?data=${encodeURIComponent(JSON.stringify(reminder))}`}
           >
-            ✅ Add to Reminders
+            🗓️ Add to Calendar
           </a>
         )}
         {onEdit && (
