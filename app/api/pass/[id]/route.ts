@@ -31,6 +31,39 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const queryDesign = req.nextUrl.searchParams.get("design") as PassDesign | null;
   const design = queryDesign && DESIGNS.includes(queryDesign) ? queryDesign : found.data.passDesign;
 
+  const reminder = found.reminder;
+  const passSlotUrl = "https://api.passslot.com/v1/templates/5525897345105920/pass";
+  const apiKey = "aOOucvsRlDxrUphjZNhoklOXyhWxnMMyCeZfOGFShItCfJBguZqULSyLCaFkpWgJ";
+
+  const passSlotData = {
+    eventName: reminder.name,
+    course: reminder.course,
+    date: new Date(reminder.dueDate).toLocaleString(undefined, {
+      weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit"
+    })
+  };
+
+  try {
+    const passSlotResponse = await fetch(passSlotUrl, {
+      method: "POST",
+      headers: {
+        "Authorization": "Basic " + Buffer.from(apiKey + ":").toString("base64"),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(passSlotData)
+    });
+
+    if (passSlotResponse.ok) {
+      const json = await passSlotResponse.json();
+      if (json.url) {
+        return NextResponse.redirect(json.url);
+      }
+    }
+  } catch (error) {
+    console.error("PassSlot generation failed:", error);
+  }
+
+  // Fallback to mock pass if PassSlot fails
   const { buffer, signed } = await generatePass(found.reminder, design, req.nextUrl.origin);
   return new NextResponse(new Uint8Array(buffer), {
     headers: {
