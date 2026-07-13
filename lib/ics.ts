@@ -35,11 +35,10 @@ export function generateIcsFeed(reminders: Reminder[], baseUrl: string): string 
     if (r.completed) continue;
     const start = icsDate(r.dueDate);
     lines.push(
-      "BEGIN:VEVENT",
+      "BEGIN:VTODO",
       fold(`UID:${r.id}@quizreminder`),
       `DTSTAMP:${icsDate(r.updatedAt)}`,
-      `DTSTART:${start}`,
-      `DTEND:${start}`,
+      `DUE:${start}`,
       fold(`SUMMARY:${escapeText(`${r.type === "quiz" ? "📝" : "📚"} ${r.name} (${r.course})`)}`),
       fold(`DESCRIPTION:${escapeText(r.notes || `${r.type} for ${r.course} — priority ${r.priority}`)}`),
       fold(`URL:${baseUrl}/reminder/${r.id}`),
@@ -57,7 +56,7 @@ export function generateIcsFeed(reminders: Reminder[], baseUrl: string): string 
         "END:VALARM"
       );
     }
-    lines.push("END:VEVENT");
+    lines.push("END:VTODO");
   }
 
   lines.push("END:VCALENDAR");
