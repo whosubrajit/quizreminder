@@ -38,9 +38,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const passSlotData = {
     eventName: reminder.name,
     course: reminder.course,
-    date: new Date(reminder.dueDate).toLocaleString(undefined, {
-      weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit"
-    })
+    date: new Date(reminder.dueDate).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }),
+    time: new Date(reminder.dueDate).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }),
+    priority: reminder.priority.toUpperCase(),
+    type: reminder.type.toUpperCase(),
+    notes: reminder.notes || "No notes provided."
   };
 
   try {
